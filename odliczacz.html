@@ -1,0 +1,186 @@
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="http://icons.iconarchive.com/icons/famfamfam/mini/16/icon-clock-icon.png" type="image/x-icon" />
+	<link href='http://fonts.googleapis.com/css?family=Fascinate' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Dosis:200,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+	<title>Ile jeszcze do Sfina?</title>
+	<script>
+		function pad(number, length) {
+			var str = '' + number;
+			while (str.length < length) {
+				str = '0' + str;
+			}
+		   
+			return str;
+		}
+		
+		function tick()
+		{
+			// Godzina początkowa
+			var _start = 9;
+
+			// Ilość godzin
+			var _ile = 8;
+
+			var t = new Date();
+			var teraz = pad(t.getHours(),2) + ':' +
+					    pad(t.getMinutes(),2) + ':' +
+						pad(t.getSeconds(), 2) +
+						'<sup>' + pad(Math.round(t.getMilliseconds()/10), 2) + '</sup>';
+
+			var rozn = (new Date(2000, 1, 1, _start + _ile, 0, 0, 0) - new Date(2000, 1, 1, t.getHours(), t.getMinutes(), t.getSeconds(), t.getMilliseconds()));
+			
+			var h = Math.floor(rozn/1000/60/60);
+			var m = Math.floor(rozn/1000/60) - h * 60;
+			var s = Math.floor(rozn/1000) - Math.floor((rozn/1000/60)) * 60;
+			var ss = Math.round((rozn - (h*1000*60*60 + m*1000*60 + s*1000))/10);
+			
+			var procent = 100 - ((h + m/60 + s/60/60)/_ile) * 100;
+			if (procent > 100) procent = 100;
+			
+			document.getElementById('start').innerHTML = pad(_start,2) + ':00:00';
+			document.getElementById('koniec').innerHTML = pad(_start + _ile,2) + ':00:00';
+			document.getElementById('aktual').innerHTML = teraz;
+			document.getElementById('pozost').innerHTML = pad(h,2) + ':' +
+														  pad(m,2) + ':' +
+														  pad(s,2) + '<sup>' +
+														  pad(ss,2) + '</sup>';
+			document.getElementById('prog').style.width = procent.toFixed(2) + '%';
+			document.getElementById('procent').innerHTML = procent.toFixed(2) + '%';
+			document.getElementById('dokonca').innerHTML = (100-procent).toFixed(2) + '%';
+		}
+
+		setInterval("tick()", 10);
+	</script>
+	<style>
+		b
+		{
+			font-weight: 800;
+		}
+		
+		h1
+		{
+			font-family: 'Fascinate', cursive;
+			font-size: 50px;
+			margin-bottom: 0;
+		}
+		
+		h2
+		{
+			margin-top: 0;
+			font-family: 'Dosis', sans-serif;
+			font-weight: 200;
+		}
+		
+		#ramka
+		{
+			margin: 100px;
+			padding: 40px;
+			border: 1px solid black;
+			border-radius: 20px;
+			background: url(http://img856.imageshack.us/img856/6936/clocksf.png) white no-repeat;
+			-webkit-box-shadow:  0px 0px 100px 1px rgba(0, 0, 0, 0.8);
+			box-shadow:  0px 0px 100px 1px rgba(0, 0, 0, 0.8);
+		}
+		
+		#sep
+		{
+			background-color: black;
+			width: 430px;
+			height: 1px;
+			margin-bottom: 30px;
+			line-height: 1px;
+		}
+		
+		#godziny
+		{
+			font-family: 'Dosis', sans-serif;
+			font-weight: 200;
+			font-size: 17px;
+			background-color: #E7E7E7;
+			margin: 20px;
+			padding: 10px;
+			border-radius: 6px;
+		}
+		
+		#godziny td
+		{
+			padding-left: 2px;
+			padding-right: 2px;
+			width: 200px;
+		}
+		
+		#full
+		{
+			display: block;
+			position: relative;
+			border: 1px solid black;
+			border-radius: 4px;
+			width: 100%;
+			height: 40px;
+			text-align: center;
+			overflow: hidden;
+			background-image: url(http://img32.imageshack.us/img32/3343/stripec951a3914aa7289b7.png);
+			text-align: center;
+			font-family: 'Dosis', sans-serif;
+			font-weight: 800;
+			font-size: 16px;
+			color: #787878;
+			-webkit-box-shadow:  2px 2px 4px 1px rgba(0, 0, 0, 0.2);
+			box-shadow:  2px 2px 4px 1px rgba(0, 0, 0, 0.2);
+		}
+		
+		#prog
+		{
+			float: left;
+			display: block;
+			position: relative;
+			text-align: center;
+			font-family: 'Dosis', sans-serif;
+			font-weight: 800;
+			font-size: 30px;
+			color: white;
+			background-color: black;
+			height: 100%;
+			border-radius: 4px;
+		}
+		
+		#procent
+		{
+			display: block;
+			line-height: 38px;
+			font-weight: 800;
+			height: 100%;
+		}
+		
+		#dokonca
+		{
+			display: block;
+			line-height: 40px;
+			font-weight: 800;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	
+	
+	<table width="100%" height="100%" ><tr><td align="center" valign="middle">
+	<div id="ramka">
+		<h1>Ile jeszcze do weekendzicha?</h1>
+		<h2>Skrypt wyliczający postęp procentowy momentu rozpoczęcia weekendzicha</h2>
+		<div id="sep">&nbsp;</div>
+		<table id="godziny">
+		<tr><td align="right">Godzina początkowa:</td><td><b><span id='start'></span></b></td></tr>
+		<tr><td align="right">Godzina końcowa:</td><td><b><span id='koniec'></span></b></td></tr>
+		<tr><td align="right">Aktualna godzina:</td><td><b><span id='aktual'></span></b></td></tr>
+		<tr><td align="right">Pozostało:</td><td><b><span id='pozost'></span></b></td></tr>
+		</table>
+		<div id="full"><div id="prog"><span id="procent"></span></div>
+		<span id="dokonca"></span>
+		</div>
+	</td></tr></table>
+</body>
+</html>
