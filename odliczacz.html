@@ -18,38 +18,38 @@
 		
 		function tick()
 		{
-			// Godzina początkowa
+			// Start hour
 			var _start = 9;
 
-			// Ilość godzin
-			var _ile = 8;
+			// Number of hours
+			var _hours = 8;
 
 			var t = new Date();
-			var teraz = pad(t.getHours(),2) + ':' +
+			var now = pad(t.getHours(),2) + ':' +
 					    pad(t.getMinutes(),2) + ':' +
 						pad(t.getSeconds(), 2) +
 						'<sup>' + pad(Math.round(t.getMilliseconds()/10), 2) + '</sup>';
 
-			var rozn = (new Date(2000, 1, 1, _start + _ile, 0, 0, 0) - new Date(2000, 1, 1, t.getHours(), t.getMinutes(), t.getSeconds(), t.getMilliseconds()));
+			var diff = (new Date(2000, 1, 1, _start + _hours, 0, 0, 0) - new Date(2000, 1, 1, t.getHours(), t.getMinutes(), t.getSeconds(), t.getMilliseconds()));
 			
-			var h = Math.floor(rozn/1000/60/60);
-			var m = Math.floor(rozn/1000/60) - h * 60;
-			var s = Math.floor(rozn/1000) - Math.floor((rozn/1000/60)) * 60;
-			var ss = Math.round((rozn - (h*1000*60*60 + m*1000*60 + s*1000))/10);
+			var h = Math.floor(diff/1000/60/60);
+			var m = Math.floor(diff/1000/60) - h * 60;
+			var s = Math.floor(diff/1000) - Math.floor((diff/1000/60)) * 60;
+			var ss = Math.round((diff - (h*1000*60*60 + m*1000*60 + s*1000))/10);
 			
-			var procent = 100 - ((h + m/60 + s/60/60)/_ile) * 100;
-			if (procent > 100) procent = 100;
+			var percent = 100 - ((h + m/60 + s/60/60)/_hours) * 100;
+			if (percent > 100) percent = 100;
 			
 			document.getElementById('start').innerHTML = pad(_start,2) + ':00:00';
-			document.getElementById('koniec').innerHTML = pad(_start + _ile,2) + ':00:00';
-			document.getElementById('aktual').innerHTML = teraz;
-			document.getElementById('pozost').innerHTML = pad(h,2) + ':' +
+			document.getElementById('end').innerHTML = pad(_start + _hours,2) + ':00:00';
+			document.getElementById('actual').innerHTML = now;
+			document.getElementById('remain').innerHTML = pad(h,2) + ':' +
 														  pad(m,2) + ':' +
 														  pad(s,2) + '<sup>' +
 														  pad(ss,2) + '</sup>';
-			document.getElementById('prog').style.width = procent.toFixed(2) + '%';
-			document.getElementById('procent').innerHTML = procent.toFixed(2) + '%';
-			document.getElementById('dokonca').innerHTML = (100-procent).toFixed(2) + '%';
+			document.getElementById('prog').style.width = percent.toFixed(2) + '%';
+			document.getElementById('percent').innerHTML = percent.toFixed(2) + '%';
+			document.getElementById('to-end').innerHTML = (100-percent).toFixed(2) + '%';
 		}
 
 		setInterval("tick()", 10);
@@ -74,7 +74,7 @@
 			font-weight: 200;
 		}
 		
-		#ramka
+		#border
 		{
 			margin: 100px;
 			padding: 40px;
@@ -94,7 +94,7 @@
 			line-height: 1px;
 		}
 		
-		#godziny
+		#hours
 		{
 			font-family: 'Dosis', sans-serif;
 			font-weight: 200;
@@ -105,7 +105,7 @@
 			border-radius: 6px;
 		}
 		
-		#godziny td
+		#hours td
 		{
 			padding-left: 2px;
 			padding-right: 2px;
@@ -147,7 +147,7 @@
 			border-radius: 4px;
 		}
 		
-		#procent
+		#percent
 		{
 			display: block;
 			line-height: 38px;
@@ -155,7 +155,7 @@
 			height: 100%;
 		}
 		
-		#dokonca
+		#to-end
 		{
 			display: block;
 			line-height: 40px;
@@ -168,18 +168,18 @@
 	
 	
 	<table width="100%" height="100%" ><tr><td align="center" valign="middle">
-	<div id="ramka">
+	<div id="border">
 		<h1>Ile jeszcze do weekendzicha?</h1>
 		<h2>Skrypt wyliczający postęp procentowy momentu rozpoczęcia weekendzicha</h2>
 		<div id="sep">&nbsp;</div>
-		<table id="godziny">
+		<table id="hours">
 		<tr><td align="right">Godzina początkowa:</td><td><b><span id='start'></span></b></td></tr>
-		<tr><td align="right">Godzina końcowa:</td><td><b><span id='koniec'></span></b></td></tr>
-		<tr><td align="right">Aktualna godzina:</td><td><b><span id='aktual'></span></b></td></tr>
-		<tr><td align="right">Pozostało:</td><td><b><span id='pozost'></span></b></td></tr>
+		<tr><td align="right">Godzina końcowa:</td><td><b><span id='end'></span></b></td></tr>
+		<tr><td align="right">Aktualna godzina:</td><td><b><span id='actual'></span></b></td></tr>
+		<tr><td align="right">Pozostało:</td><td><b><span id='remain'></span></b></td></tr>
 		</table>
-		<div id="full"><div id="prog"><span id="procent"></span></div>
-		<span id="dokonca"></span>
+		<div id="full"><div id="prog"><span id="percent"></span></div>
+		<span id="to-end"></span>
 		</div>
 	</td></tr></table>
 </body>
